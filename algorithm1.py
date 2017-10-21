@@ -15,7 +15,7 @@ import string
 
 # TODO: define options
 # TODO: change weigths
-weights = [1,1,1]
+weights = [1,1,1,1,1]
 
 # Extract passwords from file
 def read_password_file(filename):
@@ -113,15 +113,69 @@ def changeAlldigits(password) :
             password_new[j] = str(rand_digit)
         password_final = "".join(password_new)
     dig_check = len([c for c in password if c.isdigit()])
-    if dig_check > 0:
+    # if dig_check > 0:
         # print(password, password_final)
     return password_final
 
 
+## TODO: get from ipyn == OPTION 2
+
+
+## OPTION 3
+# TODO: merge? Pick one?
+def capFirst(p) :
+	passChars = list(p)
+	if (passChars[0].isupper()) :
+			passChars[0] = passChars[0].lower()
+	else :
+		passChars[0] = passChars[0].upper()
+	return ''.join(passChars)
+
+# TODO: check effectiveness of continue (lower bound to <50%)
+def capRandom(p):
+	passChars = list(p)
+	length = len(passChars)
+	cont = 1
+	while (cont == 1) :
+		i = random.randrange(length)
+		if (passChars[i].isupper()) :
+			passChars[i] = passChars[i].lower()
+		else :
+			passChars[i] = passChars[i].upper()
+		cont =  random.randrange(2);
+		# print (cont)
+	return ''.join(passChars)
+
+
+## OPTION 4
+# TODO
+def generate_special_char(pw_item):
+    sumValues = pw_item.lower().count('s') + pw_item.lower().count('o') + pw_item.lower().count('i') + pw_item.lower().count('a')
+    # print sumValues;
+
+    pw_item_Array = list(pw_item)
+    for idx,val in enumerate(pw_item_Array):
+
+        change_bool = random.randint(0,1)
+        if change_bool==1:
+            if val.lower() == "s":
+                pw_item_Array[idx]="$"
+            if val.lower() == "o":
+                pw_item_Array[idx]="0"
+            if val.lower() == "i":
+                pw_item_Array[idx]="1"
+            if val.lower() == "a":
+                pw_item_Array[idx]="@"
+
+        # if val == 
+        #     print tArray[idx]
+        output = ''.join(pw_item_Array)
+    return output
+
 # Find function options
 def findOptions() :
 	# TODO: determine valid options
-	options = list(range(3))
+	options = list(range(5))
 	return options
 
 
@@ -144,12 +198,12 @@ def findProbabilities(options) :
 def pickOption(options, probabilities) :
 	# Use random float to determine sweetword generation function
 	random0to1 = random.random()
+	nOpt = len(options)
 	if (random0to1 < probabilities[0]) :
-		option = options[0]
-	elif (random0to1 < sum(probabilities[0:2])) :
-		option = options[1]
-	else :
-		option = options[2]
+			option = options[0]
+	for i in range(1, nOpt):
+		if (sum(probabilities[0:i]) <= random0to1 < sum(probabilities[0:(i+1)])) :
+			option = options[i]
 
 	return option
 
@@ -163,6 +217,10 @@ def makeSweet(password, option) :
 		newPassword = changeAlldigits(password)
 	elif (option == 2) :
 		newPassword = "cool"
+	elif (option == 3) :
+		newPassword = capRandom(password)
+	elif (option == 4) :
+		newPassword = generate_special_char(password)
 	return newPassword
  
 
@@ -178,18 +236,18 @@ def compileSweets(n, password) :
 
 	# make the list sweetwords
 	sweetwords = [password]
-	for i in range(n) :
+	i = 0
+	while (i < n) :
 		# Find a valid heuristic option
 		option = pickOption(options, probabilities)
+		# print (option)
 		# generate sweetword
 		sweetword = makeSweet(password, option)
 		# check if sweetword already in set
 		# generate new sweetword if so else add sweetword to set
-		if (sweetword in sweetwords) :
-			if (i > 0) :
-				i -= 1
-		else :
+		if (sweetword not in sweetwords) :
 			sweetwords.append(sweetword)
+			i += 1
 
 	# randomize order of sweetword set
 	random.shuffle(sweetwords)
