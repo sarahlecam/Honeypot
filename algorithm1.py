@@ -15,7 +15,7 @@ import string
 
 # TODO: define options
 # TODO: change weigths
-weights = [1,1,1,1,1]
+weights = [1, 1, 1, 1, 1, 1, 1, 1, 1]
 
 # Extract passwords from file
 def read_password_file(filename):
@@ -172,10 +172,39 @@ def generate_special_char(pw_item):
         output = ''.join(pw_item_Array)
     return output
 
+## OPTION 5
+# TODO
+
+## OPTION 6
+# TODO
+# Add 3-digit tail if password only has characters
+def add_tail_or_head (password) :
+    dig_check = len([c for c in password if c.isdigit()])
+    password_final = password
+    if dig_check == 0:
+    	rand_digit = str(random.randint(100,999))
+    	password_final = password + rand_digit
+    # print(password, password_final)
+    return password_final
+
+## OPTION 7
+# TODO: get from ipyn
+
+
+## OPTION 8
+# TODO
+def randPass(password) :
+	passChars = list(password)
+	length = len(passChars)
+	for i in range(length):
+		passChars[i] = random.choice(string.ascii_letters + string.digits)
+	return ''.join(passChars)
+
 # Find function options
 def findOptions() :
 	# TODO: determine valid options
-	options = list(range(5))
+	options = list(range(9))
+	# print (options)
 	return options
 
 
@@ -216,11 +245,19 @@ def makeSweet(password, option) :
 	elif (option == 1) :
 		newPassword = changeAlldigits(password)
 	elif (option == 2) :
-		newPassword = "cool"
+		newPassword = "OPTION 2"
 	elif (option == 3) :
 		newPassword = capRandom(password)
 	elif (option == 4) :
 		newPassword = generate_special_char(password)
+	elif (option == 5):
+		newPassword = "OPTION 5"
+	elif (option == 6):
+		newPassword = add_tail_or_head(password)
+	elif (option == 7):
+		newPassword = "OPTION 7"
+	elif (option == 8):
+		newPassword = randPass(password)
 	return newPassword
  
 
@@ -240,9 +277,10 @@ def compileSweets(n, password) :
 	while (i < n) :
 		# Find a valid heuristic option
 		option = pickOption(options, probabilities)
-		# print (option)
+
 		# generate sweetword
 		sweetword = makeSweet(password, option)
+
 		# check if sweetword already in set
 		# generate new sweetword if so else add sweetword to set
 		if (sweetword not in sweetwords) :
