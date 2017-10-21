@@ -118,7 +118,26 @@ def changeAlldigits(password) :
     return password_final
 
 
-## TODO: get from ipyn == OPTION 2
+## OPTION 2
+# TODO
+#Switching up digit positions
+def algo3(passcode):
+    password = passcode
+    digitIndexes = []
+
+    #looping over password and storing the indexes of digits
+    for i in range (len(password)):
+        if str.isdigit(password[i]):
+            digitIndexes.append(i)
+
+    lst = list(password);
+
+    #loop over the constructed list of indexes and swap them in the original password
+    for j in range(int(len(digitIndexes)/2)):
+        lst[digitIndexes[j]], lst[digitIndexes[len(digitIndexes)-j-1]] = lst[digitIndexes[len(digitIndexes)-j-1]], lst[digitIndexes[j]]
+    
+    output = ''.join(lst)
+    return (output)
 
 
 ## OPTION 3
@@ -189,6 +208,28 @@ def add_tail_or_head (password) :
 
 ## OPTION 7
 # TODO: get from ipyn
+#this assumes that at the very least, the last character is a digit
+def algo8(passcode):
+    password = passcode
+    lst = list(password)
+    
+    index = len(password)-1
+    
+    i = ord(lst[index])
+    j = ord(lst[index-1])
+    
+    if(i - j == 1 and i<9):
+        temp = i+1
+        lst.append(str(i+1))
+    elif(j - i == 1 and i>1):
+        lst.append(str(i-1))
+    elif(i < 9):
+        lst.append(str(i+1))
+    elif(i == 9):
+        lst.append('8')
+        
+    output = ''.join(lst)
+    return (output)
 
 
 ## OPTION 8
@@ -219,7 +260,6 @@ def findProbabilities(options) :
 	for option in options :
 		probability = weights[option]/totalWeights
 		probabilities.append(probability)
-
 	return probabilities
 
 
@@ -245,7 +285,7 @@ def makeSweet(password, option) :
 	elif (option == 1) :
 		newPassword = changeAlldigits(password)
 	elif (option == 2) :
-		newPassword = "OPTION 2"
+		newPassword = algo3(password)
 	elif (option == 3) :
 		newPassword = capRandom(password)
 	elif (option == 4) :
@@ -255,7 +295,7 @@ def makeSweet(password, option) :
 	elif (option == 6):
 		newPassword = add_tail_or_head(password)
 	elif (option == 7):
-		newPassword = "OPTION 7"
+		newPassword = algo8(password)
 	elif (option == 8):
 		newPassword = randPass(password)
 	return newPassword
@@ -269,7 +309,6 @@ def compileSweets(n, password) :
 	# get valid heuristic options and their probabilities
 	options = findOptions()
 	probabilities = findProbabilities(options)
-
 
 	# make the list sweetwords
 	sweetwords = [password]
