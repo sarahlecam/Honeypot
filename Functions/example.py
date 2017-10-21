@@ -195,10 +195,12 @@ def syntax(p):
         return True
     return False
 
+## OPTION 0
 def make_password(pw_list):
     """ 
     make a random password like those in given password list
     """
+    # TODO: Capitalization? 
     if random.random() < tn:
         return tough_nut()
     # start by choosing a random password from the list
@@ -250,6 +252,21 @@ def generate_passwords( n, pw_list ):
         pw = make_password(pw_list)
         ans.append( pw )
     return ans
+
+## OPTION 1
+# TODO: working?   
+# Change all digits to a random number in password
+def changeAlldigits(password) :
+    password_new = list(password)
+    for j, c in enumerate(password_new):
+        if c.isdigit():
+            rand_digit = random.randint(0,9)
+            password_new[j] = str(rand_digit)
+        password_final = "".join(password_new)
+    dig_check = len([c for c in password if c.isdigit()])
+    if dig_check > 0:
+        print(password, password_final)
+    
 
 def main():
     # get number of passwords desired

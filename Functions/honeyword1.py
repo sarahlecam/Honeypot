@@ -1,26 +1,3 @@
-from random import *
-import sys
-import string
-import random
-def read_password_files(filenames):
-    """ 
-    Return a list of passwords in all the password file(s), plus 
-    a proportional (according to parameter q) number of "noise" passwords.
-    """
-    pw_list = [ ]
-    if len(filenames)>0:
-        for filename in filenames:
-            if sys.version_info[0] == 3:
-                lines = open(filename,"r",errors='ignore').readlines()
-            else:
-                lines = open(filename,"r").readlines()
-            for line in lines:
-                pw_list.extend( line.split() )
-    else:
-        lines = high_probability_passwords.split()
-        for line in lines:
-            pw_list.extend( line.split() )
-    return pw_list
 
 def generate_special_char( n, pw_list ):
     """ print n passwords and return list of them """
