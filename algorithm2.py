@@ -490,7 +490,6 @@ def main():
 				inRocku =1
 				sweetwords = compileSweetsFromRocku(n, password,i,top100rocku)
 		if inRocku ==0:
-			#half 
 			sweetwords = compileSweets(n, password,top100rocku)
 
 		sweetword_lists.append(sweetwords)
