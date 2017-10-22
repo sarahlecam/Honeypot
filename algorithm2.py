@@ -306,11 +306,11 @@ def makeSweet(password, option) :
 def compileSweets(n, password) :
 	# get password stats: length, number of digits, number of letters, number of special characters
 	stats = getPassStats(password)
+	res = []
 
 	if checkYear(password)==True:
 		temp = n//4
 		n = n-temp
-		res = []
 		while temp>0:
 			res.append(changeYear(password))
 			temp = temp-1
@@ -383,7 +383,8 @@ def compileSweetsFromRocku(n,password,rank,top100rocku):
 	print (n,password,rank)
 	sweetwords = [password]
 
-	half1 = n//2
+	random.randint(0,n)
+	half1 = random.randint(0,n)
 	half2 = n-half1
 	if rank>half1 and (rank-half2)>half2:
 		while (half1>0):
@@ -393,7 +394,6 @@ def compileSweetsFromRocku(n,password,rank,top100rocku):
 				sweetwords.append(sweetword)
 				half1 = half1 - 1
 
-			half1 = half1-1
 		while (half2>0):
 			sweetword = top100rocku[random.randint(rank,99)]
 			print(sweetword)
@@ -403,7 +403,10 @@ def compileSweetsFromRocku(n,password,rank,top100rocku):
 				half2 = half2 - 1
 	else:
 		while (n>0):
-			sweetword = top100rocku[random.randint(0,rank)]
+			# print(rank)
+			sweetword = top100rocku[random.randint(0,99)]
+			# print (sweetword)
+			# print (sweetwords)
 			if (sweetword not in sweetwords) :
 				sweetwords.append(sweetword)
 				n = n - 1
@@ -433,8 +436,9 @@ def main():
 				inRocku =1
 				sweetwords = compileSweetsFromRocku(n, password,i,top100rocku)
 		if inRocku ==0:
+			#half 
 			sweetwords = compileSweets(n, password)
-		print(sweetwords)
+
 		sweetword_lists.append(sweetwords)
 
 	# write out sweetword sets to output file

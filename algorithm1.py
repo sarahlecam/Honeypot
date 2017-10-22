@@ -306,11 +306,11 @@ def makeSweet(password, option) :
 def compileSweets(n, password) :
 	# get password stats: length, number of digits, number of letters, number of special characters
 	stats = getPassStats(password)
+	res = []
 
 	if checkYear(password)==True:
 		temp = n//4
 		n = n-temp
-		res = []
 		while temp>0:
 			res.append(changeYear(password))
 			temp = temp-1
