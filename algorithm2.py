@@ -370,6 +370,7 @@ def compileSweets(n, password, top100rocku):
 					i += 1
 
 	else:
+		i = 0
 		while (i < n) :
 			# Find a valid heuristic option
 			option = pickOption(options, probabilities)
