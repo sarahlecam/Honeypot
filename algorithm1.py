@@ -12,7 +12,6 @@ import string
 #	- Option 0: Manipulate last 3 digits
 #	- Option 1:
 #	- Option 2:
-
 # TODO: define options
 # TODO: change weigths
 weights = [1, 1, 1, 1, 1, 1, 1, 1, 1]
