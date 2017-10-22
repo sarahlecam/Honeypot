@@ -10,11 +10,6 @@ import string
 import re
 
 # weights helps determine the frequency with which each transform function should be called
-#	- Option 0: Manipulate last 3 digits
-#	- Option 1:
-#	- Option 2:
-
-# TODO: define options
 # TODO: change weigths
 weights = [1, 1, 1, 1, 1, 1, 1, 1, 1]
 
@@ -143,14 +138,6 @@ def algo3(passcode):
 
 ## OPTION 3
 # TODO: merge? Pick one?
-def capFirst(p) :
-	passChars = list(p)
-	if (passChars[0].isupper()) :
-			passChars[0] = passChars[0].lower()
-	else :
-		passChars[0] = passChars[0].upper()
-	return ''.join(passChars)
-
 # TODO: check effectiveness of continue (lower bound to <50%)
 def capRandom(p):
 	passChars = list(p)
@@ -194,6 +181,13 @@ def generate_special_char(pw_item):
 
 ## OPTION 5
 # TODO
+#def capFirst(p) :
+#    passChars = list(p)
+#        if (passChars[0].isupper()) :
+#            passChars[0] = passChars[0].lower()
+#        else :
+#            passChars[0] = passChars[0].upper()
+#    return ''.join(passChars)
 
 ## OPTION 6
 # TODO
