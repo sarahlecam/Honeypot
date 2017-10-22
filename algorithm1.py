@@ -12,15 +12,6 @@ def compileSweets(n, password) :
 	stats = getPassStats(password)
 	res = []
 
-	#please help this Sarah
-	# if checkYear(password)==True:
-	# 	temp = n//4
-	# 	n = n-temp
-	# 	while temp>0:
-	# 		res.append(changeYear(password))
-	# 		temp = temp-1
-	# print (n)
-	# get valid heuristic options and their probabilities
 	options = findOptions()
 	probabilities = findProbabilities(options)
 
@@ -45,45 +36,7 @@ def compileSweets(n, password) :
 
 	return sweetwords
 
-def checkYear (password):
-	tokenizedPW = re.split('(\d+)',password)
-
-	for ind,val in enumerate(tokenizedPW):
-		if len(val)>0 and val[0].isdigit():
-			if (int(val)>1930) and (int(val) < 2100):
-				return True
-	return False
-
-def changeYear(password):
-
-	tokenizedPW = re.split('(\d+)',password)
-
-	for ind,val in enumerate(tokenizedPW):
-		if len(val)>0 and val[0].isdigit():
-			if (int(val)>1930) and (int(val) < 2100):
-				newYear = int(val) + random.randint(-30,30)
-				tokenizedPW[ind] = str(newYear)
 	
-	output = ''.join(tokenizedPW)
-	return output
-
-	# yyyy = 1
-	# yearEnd=0
-	# for i in range(1,len(pw_item_Array)):
-	# 	if pw_item_Array[i].isdigit() and pw_item_Array[i-1].isdigit():
-	# 		yyyy = yyyy+1
-	# 	if yyyy == 4:
-	# 		yearEnd = i
-	# 		print('year found');
-
-	# if yearEnd==len(pw_item_Array)-1:
-	# 	first = password[:yearEnd-3]
-	# 	second = password[yearEnd-3:]
-		
-	# 	if int(second)>1930 and int(second)<2100:
-	# 		second = int(second)
-
-		
 # Define runtime call
 def main():
 	# get command line aguments

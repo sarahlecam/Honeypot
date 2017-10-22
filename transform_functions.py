@@ -9,12 +9,9 @@ import string
 import re
 
 # weights helps determine the frequency with which each transform function should be called
-#	- Option 0: Manipulate last 3 digits
-#	- Option 1:
-#	- Option 2:
 # TODO: define options
 # TODO: change weigths
-weights = [1, 1, 1, 1, 1, 1, 1, 1, 1]
+weights = [1, 1, 1, 1, 1, 3, 1, 1, 1]
 
 # Extract passwords from file
 def read_password_file(filename):
@@ -71,6 +68,46 @@ def getPassStats(password) :
 
 	return {"length": length, "nLetters": nLetters, 
 				"nDigits": nDigits, "nSpecial": nSpecial}
+
+
+def checkYear (password):
+    tokenizedPW = re.split('(\d+)',password)
+
+    for ind,val in enumerate(tokenizedPW):
+        if len(val)>0 and val[0].isdigit():
+            if (int(val)>1930) and (int(val) < 2100):
+                return True
+    return False
+
+
+def changeYear(password):
+
+    tokenizedPW = re.split('(\d+)',password)
+
+    for ind,val in enumerate(tokenizedPW):
+        if len(val)>0 and val[0].isdigit():
+            if (int(val)>1930) and (int(val) < 2100):
+                newYear = int(val) + random.randint(-30,30)
+                tokenizedPW[ind] = str(newYear)
+    
+    output = ''.join(tokenizedPW)
+    return output
+
+    # yyyy = 1
+    # yearEnd=0
+    # for i in range(1,len(pw_item_Array)):
+    #   if pw_item_Array[i].isdigit() and pw_item_Array[i-1].isdigit():
+    #       yyyy = yyyy+1
+    #   if yyyy == 4:
+    #       yearEnd = i
+    #       print('year found');
+
+    # if yearEnd==len(pw_item_Array)-1:
+    #   first = password[:yearEnd-3]
+    #   second = password[yearEnd-3:]
+        
+    #   if int(second)>1930 and int(second)<2100:
+    #       second = int(second)
 
 
 ## OPTION 0
@@ -192,6 +229,13 @@ def generate_special_char(pw_item):
 
 ## OPTION 5
 # TODO
+#please help this Sarah
+def diffYear(password) :
+    if checkYear(password)==True:
+        password = changeYear(password)
+    # print (n)
+    return password
+
 
 ## OPTION 6
 # TODO
@@ -290,7 +334,7 @@ def makeSweet(password, option) :
 	elif (option == 4) :
 		newPassword = generate_special_char(password)
 	elif (option == 5):
-		newPassword = "OPTION 5"
+		newPassword = diffYear(password)
 	elif (option == 6):
 		newPassword = add_tail_or_head(password)
 	elif (option == 7):
