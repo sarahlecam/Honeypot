@@ -307,13 +307,20 @@ def compileSweets(n, password) :
 	# get password stats: length, number of digits, number of letters, number of special characters
 	stats = getPassStats(password)
 
-	changeYear (password)
+	if checkYear(password)==True:
+		temp = n//4
+		n = n-temp
+		res = []
+		while temp>0:
+			res.append(changeYear(password))
+			temp = temp-1
+	print (n)
 	# get valid heuristic options and their probabilities
 	options = findOptions()
 	probabilities = findProbabilities(options)
 
 	# make the list sweetwords
-	sweetwords = [password]
+	sweetwords = [password]+res
 	i = 0
 	while (i < n) :
 		# Find a valid heuristic option
@@ -332,11 +339,16 @@ def compileSweets(n, password) :
 	random.shuffle(sweetwords)
 
 	return sweetwords
+def checkYear (password):
+	tokenizedPW = re.split('(\d+)',password)
+
+	for ind,val in enumerate(tokenizedPW):
+		if len(val)>0 and val[0].isdigit():
+			if (int(val)>1930) and (int(val) < 2100):
+				return True
+	return False
 
 def changeYear(password):
-
-	doesItContainYear =0
-
 
 	tokenizedPW = re.split('(\d+)',password)
 
@@ -347,7 +359,7 @@ def changeYear(password):
 				tokenizedPW[ind] = str(newYear)
 	
 	output = ''.join(tokenizedPW)
-	print(output)
+	return output
 
 	# yyyy = 1
 	# yearEnd=0
