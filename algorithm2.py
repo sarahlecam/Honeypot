@@ -181,13 +181,13 @@ def generate_special_char(pw_item):
 
 ## OPTION 5
 # TODO
-def capFirst(p) :
-    passChars = list(p)
-        if (passChars[0].isupper()) :
-            passChars[0] = passChars[0].lower()
-        else :
-            passChars[0] = passChars[0].upper()
-    return ''.join(passChars)
+#def capFirst(p) :
+#    passChars = list(p)
+#        if (passChars[0].isupper()) :
+#            passChars[0] = passChars[0].lower()
+#        else :
+#            passChars[0] = passChars[0].upper()
+#    return ''.join(passChars)
 
 ## OPTION 6
 # TODO

@@ -142,13 +142,13 @@ def algo3(passcode):
 
 ## OPTION 3
 # TODO: merge? Pick one?
-def capFirst(p) :
-	passChars = list(p)
-	if (passChars[0].isupper()) :
-			passChars[0] = passChars[0].lower()
-	else :
-		passChars[0] = passChars[0].upper()
-	return ''.join(passChars)
+# def capFirst(p) :
+# 	passChars = list(p)
+# 	if (passChars[0].isupper()) :
+# 			passChars[0] = passChars[0].lower()
+# 	else :
+# 		passChars[0] = passChars[0].upper()
+# 	return ''.join(passChars)
 
 # TODO: check effectiveness of continue (lower bound to <50%)
 def capRandom(p):
