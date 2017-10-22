@@ -303,37 +303,91 @@ def makeSweet(password, option) :
  
 
 # Compile sweetwords for given password
-def compileSweets(n, password) :
+def compileSweets(n, password, top100rocku):
 	# get password stats: length, number of digits, number of letters, number of special characters
 	stats = getPassStats(password)
 	res = []
 
-	if checkYear(password)==True:
-		temp = n//4
-		n = n-temp
-		while temp>0:
-			res.append(changeYear(password))
-			temp = temp-1
-	print (n)
+	# if checkYear(password)==True:
+	# 	temp = n//4
+	# 	n = n-temp
+	# 	while temp>0:
+	# 		res.append(changeYear(password))
+	# 		temp = temp-1
+	# print (n)
 	# get valid heuristic options and their probabilities
+	
+
 	options = findOptions()
 	probabilities = findProbabilities(options)
 
 	# make the list sweetwords
 	sweetwords = [password]+res
-	i = 0
-	while (i < n) :
-		# Find a valid heuristic option
-		option = pickOption(options, probabilities)
+	
 
-		# generate sweetword
-		sweetword = makeSweet(password, option)
+	if n > 10:
+		print("chp1")
+		m = n//5
+		print(m)
+		remainder = n%5
+		print(remainder)
+		fakeRockuList = []
 
-		# check if sweetword already in set
-		# generate new sweetword if so else add sweetword to set
-		if (sweetword not in sweetwords) :
-			sweetwords.append(sweetword)
-			i += 1
+
+		for j in range(0,m-1):
+			print("chp2")
+			sweetword = top100rocku[random.randint(0,99)]
+			if sweetword not in fakeRockuList:
+				fakeRockuList.append(sweetword)
+
+		print(fakeRockuList)
+		i=0
+		#The real password
+		while (i < 5+remainder):
+			print("chp3")
+			# Find a valid heuristic option
+			option = pickOption(options, probabilities)
+
+			# generate sweetword
+			sweetword = makeSweet(password, option)
+
+			# check if sweetword already in set
+			# generate new sweetword if so else add sweetword to set
+			if (sweetword not in sweetwords) :
+				sweetwords.append(sweetword)
+				i += 1
+
+
+		#fake password
+		for k in range(0,m-1):
+			fackRockuPW = fakeRockuList.pop()
+			i=0
+			while (i < 5):
+				# Find a valid heuristic option
+				option = pickOption(options, probabilities)
+
+				# generate sweetword
+				sweetword = makeSweet(fackRockuPW, option)
+
+				# check if sweetword already in set
+				# generate new sweetword if so else add sweetword to set
+				if (sweetword not in sweetwords) :
+					sweetwords.append(sweetword)
+					i += 1
+
+	else:
+		while (i < n) :
+			# Find a valid heuristic option
+			option = pickOption(options, probabilities)
+
+			# generate sweetword
+			sweetword = makeSweet(password, option)
+
+			# check if sweetword already in set
+			# generate new sweetword if so else add sweetword to set
+			if (sweetword not in sweetwords) :
+				sweetwords.append(sweetword)
+				i += 1
 
 	# randomize order of sweetword set
 	random.shuffle(sweetwords)
@@ -437,7 +491,7 @@ def main():
 				sweetwords = compileSweetsFromRocku(n, password,i,top100rocku)
 		if inRocku ==0:
 			#half 
-			sweetwords = compileSweets(n, password)
+			sweetwords = compileSweets(n, password,top100rocku)
 
 		sweetword_lists.append(sweetwords)
 

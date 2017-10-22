@@ -307,14 +307,16 @@ def compileSweets(n, password) :
 	stats = getPassStats(password)
 	res = []
 
-	if checkYear(password)==True:
-		temp = n//4
-		n = n-temp
-		while temp>0:
-			res.append(changeYear(password))
-			temp = temp-1
-	print (n)
-	# get valid heuristic options and their probabilities
+
+	#please help this Sarah
+	# if checkYear(password)==True:
+	# 	temp = n//4
+	# 	n = n-temp
+	# 	while temp>0:
+	# 		res.append(changeYear(password))
+	# 		temp = temp-1
+	# print (n)
+	# # get valid heuristic options and their probabilities
 	options = findOptions()
 	probabilities = findProbabilities(options)
 
