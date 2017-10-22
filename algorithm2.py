@@ -13,6 +13,7 @@ import re
 #	- Option 0: Manipulate last 3 digits
 #	- Option 1:
 #	- Option 2:
+
 # TODO: define options
 # TODO: change weigths
 weights = [1, 1, 1, 1, 1, 1, 1, 1, 1]
@@ -377,6 +378,41 @@ def changeYear(password):
 	# 		second = int(second)
 
 		
+
+def compileSweetsFromRocku(n,password,rank,top100rocku):
+	print (n,password,rank)
+	sweetwords = [password]
+
+	half1 = n//2
+	half2 = n-half1
+	if rank>half1 and (rank-half2)>half2:
+		while (half1>0):
+			sweetword = top100rocku[random.randint(0,rank)]
+			print(sweetword)
+			if (sweetword not in sweetwords) :
+				sweetwords.append(sweetword)
+				half1 = half1 - 1
+
+			half1 = half1-1
+		while (half2>0):
+			sweetword = top100rocku[random.randint(rank,99)]
+			print(sweetword)
+
+			if (sweetword not in sweetwords) :
+				sweetwords.append(sweetword)
+				half2 = half2 - 1
+	else:
+		while (n>0):
+			sweetword = top100rocku[random.randint(0,rank)]
+			if (sweetword not in sweetwords) :
+				sweetwords.append(sweetword)
+				n = n - 1
+
+	#call function for when n >100!!!!!!!!!!!!!!
+	random.shuffle(sweetwords)
+	# print("This is it",password,sweetwords)
+	return sweetwords
+
 # Define runtime call
 def main():
 	# get command line aguments
@@ -387,11 +423,18 @@ def main():
 
 	# store input passwords
 	passwords = read_password_file(input_file)
+	top100rocku = read_password_file("Rocku/rockutop100.csv")
 	# Compile sweetword sets for each password
 	sweetword_lists = []
 	for password in passwords:
 		inRocku =0
-		sweetwords = compileSweets(n, password)
+		for i in range(0,100):
+			if password == top100rocku[i]:
+				inRocku =1
+				sweetwords = compileSweetsFromRocku(n, password,i,top100rocku)
+		if inRocku ==0:
+			sweetwords = compileSweets(n, password)
+		print(sweetwords)
 		sweetword_lists.append(sweetwords)
 
 	# write out sweetword sets to output file
