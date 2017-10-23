@@ -28,7 +28,6 @@ def read_password_file(filename):
 
         pw_list.append( line[:-1] )
 
-
     return pw_list
 
 def stripFrequencies2(filename):

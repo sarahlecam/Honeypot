@@ -186,7 +186,7 @@ def main():
 	sweetword_lists = []
 	for password in passwords:
 		inRocku =0
-		for i in range(0,100):
+		for i in range(0,3000):
 			if password == top100rocku[i]:
 				inRocku =1
 				sweetwords = compileSweetsFromRocku(n, password,i,top100rocku)
