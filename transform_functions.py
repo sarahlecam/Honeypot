@@ -11,7 +11,7 @@ import re
 # weights helps determine the frequency with which each transform function should be called
 # TODO: define options
 # TODO: change weigths
-weights = [1, 1, 1, 1, 1, 3, 1, 1, 1]
+weights = [1, 1, 1, 1, 1, 3, 1, 1, 1, 2]
 
 # Extract passwords from file
 def read_password_file(filename):
@@ -29,45 +29,57 @@ def read_password_file(filename):
 
     return pw_list
 
+def stripFrequencies2(filename):
+    tr_list = [ ]
+
+    if sys.version_info[0] == 3:
+        lines = open(filename,"r",errors='ignore').readlines()
+    else:
+        lines = open(filename,"r").readlines()
+    tr_list = [line.rstrip('\n') for line in lines]
+    tr_list = [line.split()[1] if len(line.split()) > 1 else line.split()[0] for line in tr_list]
+    return tr_list
+
 
 # Write to output file
 def write_sweetword_file(filename, sweetword_lists):
-	# Open file (different based on Python version) in write mode
+    # Open file (different based on Python version) in write mode
     if sys.version_info[0] == 3:
         file = open(filename,"w",errors='ignore')
     else:
         file = open(filename,"w")
 
     for i in range(len(sweetword_lists)) :
-    	# transform sweetword set into comma seperated string and write on new line
-    	list = sweetword_lists[i]
-    	file.write(','.join(list))
-    	if (i + 1 < len(sweetword_lists)) :
-    		file.write("\n")
+        # transform sweetword set into comma seperated string and write on new line
+        list = sweetword_lists[i]
+        output = ",".join(list)
+        file.write(output)
+        if (i + 1 < len(sweetword_lists)) :
+           file.write("\n")
 
     file.close()
 
 
 # Compile make up statistics of password
 def getPassStats(password) :
-	# String -> List
-	passChars = list(password)
-	length = len(passChars)
+    # String -> List
+    passChars = list(password)
+    length = len(passChars)
 
-	# find makeup of password
-	nLetters = 0
-	nDigits = 0
-	nSpecial = 0
-	for i in range(length):
-		if (passChars[i] in string.ascii_letters):
-			nLetters += 1
-		elif (passChars[i] in string.digits):
-			nDigits += 1
-		else :
-			nSpecial += 1
+    # find makeup of password
+    nLetters = 0
+    nDigits = 0
+    nSpecial = 0
+    for i in range(length):
+       if (passChars[i] in string.ascii_letters):
+         nLetters += 1
+       elif (passChars[i] in string.digits):
+         nDigits += 1
+       else :
+         nSpecial += 1
 
-	return {"length": length, "nLetters": nLetters, 
-				"nDigits": nDigits, "nSpecial": nSpecial}
+    return {"length": length, "nLetters": nLetters, 
+          "nDigits": nDigits, "nSpecial": nSpecial}
 
 
 def checkYear (password):
@@ -177,29 +189,20 @@ def algo3(passcode):
 
 
 ## OPTION 3
-# TODO: merge? Pick one?
-# def capFirst(p) :
-# 	passChars = list(p)
-# 	if (passChars[0].isupper()) :
-# 			passChars[0] = passChars[0].lower()
-# 	else :
-# 		passChars[0] = passChars[0].upper()
-# 	return ''.join(passChars)
-
 # TODO: check effectiveness of continue (lower bound to <50%)
 def capRandom(p):
-	passChars = list(p)
-	length = len(passChars)
-	cont = 1
-	while (cont == 1) :
-		i = random.randrange(length)
-		if (passChars[i].isupper()) :
-			passChars[i] = passChars[i].lower()
-		else :
-			passChars[i] = passChars[i].upper()
-		cont =  random.randrange(2);
-		# print (cont)
-	return ''.join(passChars)
+    passChars = list(p)
+    length = len(passChars)
+    cont = 1
+    while (cont == 1) :
+       i = random.randrange(length)
+       if (passChars[i].isupper()) :
+         passChars[i] = passChars[i].lower()
+       else :
+         passChars[i] = passChars[i].upper()
+       cont =  random.randrange(2);
+       # print (cont)
+    return ''.join(passChars)
 
 
 ## OPTION 4
@@ -244,8 +247,8 @@ def add_tail_or_head (password) :
     dig_check = len([c for c in password if c.isdigit()])
     password_final = password
     if dig_check == 0:
-    	rand_digit = str(random.randint(100,999))
-    	password_final = password + rand_digit
+        rand_digit = str(random.randint(100,999))
+        password_final = password + rand_digit
     # print(password, password_final)
     return password_final
 
@@ -278,69 +281,81 @@ def algo8(passcode):
 ## OPTION 8
 # TODO
 def randPass(password) :
-	passChars = list(password)
-	length = len(passChars)
-	for i in range(length):
-		passChars[i] = random.choice(string.ascii_letters + string.digits)
-	return ''.join(passChars)
+    passChars = list(password)
+    length = len(passChars)
+    for i in range(length):
+       passChars[i] = random.choice(string.ascii_letters + string.digits)
+    return ''.join(passChars)
 
 # Find function options
 def findOptions() :
-	# TODO: determine valid options
-	options = list(range(9))
-	# print (options)
-	return options
+    # TODO: determine valid options
+    options = list(range(10))
+    # print (options)
+    return options
+
+## OPTION 9
+# TODO
+def capFirst(p) :
+  passChars = list(p)
+  if (passChars[0].isupper()) :
+       passChars[0] = passChars[0].lower()
+  else :
+   passChars[0] = passChars[0].upper()
+  return ''.join(passChars)
 
 
 # Determine probability of each function being applied
 def findProbabilities(options) :
-	# TODO: change for customized weights
-	optweigths = weights
-	totalWeights = sum(optweigths)
+    # TODO: change for customized weights
+    optweigths = weights
+    totalWeights = sum(optweigths)
 
-	# compute probability of each heuristic application
-	probabilities = []
-	for option in options :
-		probability = weights[option]/totalWeights
-		probabilities.append(probability)
-	return probabilities
+    # compute probability of each heuristic application
+    probabilities = []
+    for option in options :
+       probability = weights[option]/totalWeights
+       probabilities.append(probability)
+    return probabilities
 
 
 # choose option from the available ones
 def pickOption(options, probabilities) :
-	# Use random float to determine sweetword generation function
-	random0to1 = random.random()
-	nOpt = len(options)
-	if (random0to1 < probabilities[0]) :
-			option = options[0]
-	for i in range(1, nOpt):
-		if (sum(probabilities[0:i]) <= random0to1 < sum(probabilities[0:(i+1)])) :
-			option = options[i]
+    # Use random float to determine sweetword generation function
+    random0to1 = random.random()
+    nOpt = len(options)
+    if (random0to1 < probabilities[0]) :
+         option = options[0]
+    for i in range(1, nOpt):
+       if (sum(probabilities[0:i]) <= random0to1 < sum(probabilities[0:(i+1)])) :
+         option = options[i]
 
-	return option
+    return option
 
 
 # Find n-1 sweetwords 
 def makeSweet(password, option) :
-	# switch heuristic transform based on option
-	if (option == 0) :
-		newPassword = manipulate_last_3_char(password)
-	elif (option == 1) :
-		newPassword = changeAlldigits(password)
-	elif (option == 2) :
-		newPassword = algo3(password)
-	elif (option == 3) :
-		newPassword = capRandom(password)
-	elif (option == 4) :
-		newPassword = generate_special_char(password)
-	elif (option == 5):
-		newPassword = diffYear(password)
-	elif (option == 6):
-		newPassword = add_tail_or_head(password)
-	elif (option == 7):
-		newPassword = algo8(password)
-	elif (option == 8):
-		newPassword = randPass(password)
-	return newPassword
+    # switch heuristic transform based on option
+    if (option == 0) :
+       newPassword = manipulate_last_3_char(password)
+    elif (option == 1) :
+       newPassword = changeAlldigits(password)
+    elif (option == 2) :
+       newPassword = algo3(password)
+    elif (option == 3) :
+       newPassword = capRandom(password)
+    elif (option == 4) :
+       newPassword = generate_special_char(password)
+    elif (option == 5):
+       newPassword = diffYear(password)
+    elif (option == 6):
+       newPassword = add_tail_or_head(password)
+    elif (option == 7):
+       newPassword = algo8(password)
+    elif (option == 8):
+       newPassword = randPass(password)
+    elif (option == 9):
+       newPassword = capFirst(password) 
+    return newPassword
 
  
