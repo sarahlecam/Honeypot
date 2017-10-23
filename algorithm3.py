@@ -1,6 +1,6 @@
 #! /usr/local/bin/python
-# algorithm2.py
-# Given a list of k real passwords, generate k lists of "n" sweetwords with 100 top passwords
+# algorithm3.py
+# Given a list of k real passwords, generate k lists of "n" sweetwords with all RockYou passwords
 # Luke Ahn | Jennifer Ding | Sarah Le Cam | Joe Bassam Abi Sleiman
 
 # Function file
@@ -25,14 +25,7 @@ def compileSweets(n, password, top100rocku):
 		# print(m)
 		remainder = n%5
 		# print(remainder)
-		fakeRockuList = []
-
-
-		for j in range(0,m-1):
-			# print("chp2")
-			sweetword = top100rocku[random.randint(0,99)]
-			if sweetword not in fakeRockuList:
-				fakeRockuList.append(sweetword)
+		fakeRockuList = buildPassList(m, password, top100rocku)
 
 		# print(fakeRockuList)
 		i=0
@@ -140,6 +133,42 @@ def compileSweetsFromRocku(n,password,rank,top100rocku):
 	random.shuffle(sweetwords)
 	# print("This is it",password,sweetwords)
 	return sweetwords
+
+
+#number - number of honeywords needed
+def buildPassList(number, inputpassword, top100rocku):
+
+	passlist = []
+	posspass = []
+
+	#For "RockYou Like" passwords
+	for i in range(len(top100rocku)):
+		if i<3000:
+			password = top100rocku[i]
+			if getPassStats(password)["length"] == getPassStats(inputpassword)["length"] and getPassStats(password)["maxChar"] == getPassStats(inputpassword)["maxChar"]:
+				posspass.append(password)
+		else:
+			break
+
+	if(len(posspass) > 0):
+		dif = number - len(passlist)
+		while (dif > 0) :
+			randPass = random.choice(posspass)
+			if (randPass not in passlist) :
+				passlist.append(randPass)
+				dif -= 1
+
+	#For non "RockYou Like" Passowrds
+	if (len(passlist) < number) :
+		dif = number - len(passlist)
+		while (dif > 0) :
+			randPass = random.choice(top100rocku)
+			if (randPass not in passlist) :
+				passlist.append(randPass)
+				dif -= 1
+	print(passlist)
+	return passlist
+
 
 # Define runtime call
 def main():

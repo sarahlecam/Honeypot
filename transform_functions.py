@@ -71,15 +71,22 @@ def getPassStats(password) :
     nDigits = 0
     nSpecial = 0
     for i in range(length):
-       if (passChars[i] in string.ascii_letters):
-         nLetters += 1
-       elif (passChars[i] in string.digits):
-         nDigits += 1
-       else :
-         nSpecial += 1
+        if (passChars[i] in string.ascii_letters):
+            nLetters += 1
+        elif (passChars[i] in string.digits):
+            nDigits += 1
+        else :
+            nSpecial += 1
 
-    return {"length": length, "nLetters": nLetters, 
-          "nDigits": nDigits, "nSpecial": nSpecial}
+    if nLetters > nDigits and nLetters > nSpecial:
+        maxchar = "nLetters"
+    elif nDigits > nLetters and nDigits > nSpecial:
+        maxchar = "nDigits"
+    else:
+        maxchar = "nSpecial"
+
+    return {"length": length, "nLetters": nLetters,
+                "nDigits": nDigits, "nSpecial": nSpecial, "maxChar": maxchar}
 
 
 def checkYear (password):
