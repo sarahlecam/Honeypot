@@ -37,7 +37,7 @@ def compileSweets(n, password, top100rocku):
 		# print(fakeRockuList)
 		i=0
 		#The real password
-		while (i < 5):
+		while (i < 4):
 			# print("chp3")
 			# Find a valid heuristic option
 			option = pickOption(options, probabilities)
@@ -71,7 +71,7 @@ def compileSweets(n, password, top100rocku):
 
 		fackRockuPW = fakeRockuList.pop()
 		i=0
-		while (i < remainder):
+		while (i < remainder + 1):
 			# Find a valid heuristic option
 			option = pickOption(options, probabilities)
 

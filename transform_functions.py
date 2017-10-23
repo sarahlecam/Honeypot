@@ -26,7 +26,7 @@ def read_password_file(filename):
     # add each truncated element of lines to password list
     for line in lines:
 
-        pw_list.append( line[:-1] )
+        pw_list.extend( line.split() )
 
     return pw_list
 
