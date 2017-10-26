@@ -116,7 +116,6 @@ def compileSweetsFromRocku(n,password,rank,top100rocku):
 				half1 = half1 - 1
 
 		while (half2>0):
-			print (rank)
 			sweetword = top100rocku[random.randint(rank,3000)]
 			# print(sweetword)
 
@@ -193,10 +192,8 @@ def main():
 		for i in range(0,3000):
 			if password == top100rocku[i]:
 				inRocku =1
-				print("in rocku?")
 				sweetwords = compileSweetsFromRocku(n, password,i,top100rocku)
 		if inRocku ==0:
-			print("not in rocku")
 			sweetwords = compileSweets(n, password,top100rocku)
 
 		sweetword_lists.append(sweetwords)
