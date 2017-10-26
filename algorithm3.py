@@ -25,11 +25,11 @@ def compileSweets(n, password, top100rocku):
 		# print(m)
 		remainder = n%5
 		# print(remainder)
-		fakeRockuList = buildPassList(m + 1, password, top100rocku)
+		fakeRockuList = buildPassList(m, password, top100rocku)
 
-		# print(fakeRockuList)
 		i=0
 		#The real password
+		#Can be the real password here or fake password. 
 		while (i < 4):
 			# print("chp3")
 			# Find a valid heuristic option
@@ -47,33 +47,36 @@ def compileSweets(n, password, top100rocku):
 
 		#fake password
 		for k in range(0,m-1):
-			fackRockuPW = fakeRockuList.pop()
+			fakeRockuPW = fakeRockuList.pop()
 			i=0
 			while (i < 5):
 				# Find a valid heuristic option
 				option = pickOption(options, probabilities)
 
 				# generate sweetword
-				sweetword = makeSweet(fackRockuPW, option)
+				sweetword = makeSweet(fakeRockuPW, option)
 
 				# check if sweetword already in set
 				# generate new sweetword if so else add sweetword to set
 				if (sweetword not in sweetwords) :
+
 					sweetwords.append(sweetword)
 					i += 1
 
-		fackRockuPW = fakeRockuList.pop()
+		fakeRockuPW = fakeRockuList.pop()
+		#last one with remainder. Can be real password or the fake password
 		i=0
 		while (i < remainder + 1):
 			# Find a valid heuristic option
 			option = pickOption(options, probabilities)
 
 			# generate sweetword
-			sweetword = makeSweet(fackRockuPW, option)
+			sweetword = makeSweet(fakeRockuPW, option)
 
 			# check if sweetword already in set
 			# generate new sweetword if so else add sweetword to set
 			if (sweetword not in sweetwords) :
+
 				sweetwords.append(sweetword)
 				i += 1
 	else:
@@ -113,7 +116,8 @@ def compileSweetsFromRocku(n,password,rank,top100rocku):
 				half1 = half1 - 1
 
 		while (half2>0):
-			sweetword = top100rocku[random.randint(rank,99)]
+			print (rank)
+			sweetword = top100rocku[random.randint(rank,3000)]
 			# print(sweetword)
 
 			if (sweetword not in sweetwords) :
@@ -189,8 +193,10 @@ def main():
 		for i in range(0,3000):
 			if password == top100rocku[i]:
 				inRocku =1
+				print("in rocku?")
 				sweetwords = compileSweetsFromRocku(n, password,i,top100rocku)
 		if inRocku ==0:
+			print("not in rocku")
 			sweetwords = compileSweets(n, password,top100rocku)
 
 		sweetword_lists.append(sweetwords)
