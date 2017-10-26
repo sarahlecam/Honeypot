@@ -107,7 +107,7 @@ def compileSweetsFromRocku(n,password,rank,top100rocku):
 	random.randint(0,n)
 	half1 = random.randint(0,n)
 	half2 = n-half1
-	if rank>half1 and (rank-half2)>half2:
+	if rank>half1 and ((3000-rank)>half2):
 		while (half1>0):
 			sweetword = top100rocku[random.randint(0,rank)]
 			# print(sweetword)
