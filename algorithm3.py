@@ -25,7 +25,7 @@ def compileSweets(n, password, top100rocku):
 		# print(m)
 		remainder = n%5
 		# print(remainder)
-		fakeRockuList = buildPassList(m, password, top100rocku)
+		fakeRockuList = buildPassList(m + 1, password, top100rocku)
 
 		i=0
 		#The real password
@@ -64,7 +64,7 @@ def compileSweets(n, password, top100rocku):
 					i += 1
 
 		fakeRockuPW = fakeRockuList.pop()
-		#last one with remainder. Can be real password or the fake password
+		#last one for the remainder.
 		i=0
 		while (i < remainder + 1):
 			# Find a valid heuristic option
