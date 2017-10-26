@@ -25,10 +25,13 @@ def read_password_file(filename):
 
     # add each truncated element of lines to password list
     for line in lines:
-
-        pw_list.extend( line.split() )
-
+        # pw = ''.join(line.split("\n")) 
+        # print(line.strip("\n"))
+        # print(line)
+        pw_list.append(line.strip("\n") )
+        # print (pw_list)
     return pw_list
+
 
 def stripFrequencies2(filename):
     tr_list = [ ]

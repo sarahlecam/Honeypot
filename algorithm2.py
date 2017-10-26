@@ -28,7 +28,7 @@ def compileSweets(n, password, top100rocku):
 		fakeRockuList = []
 
 
-		for j in range(0,m):
+		for j in range(0,m + 1):
 			# print("chp2")
 			sweetword = top100rocku[random.randint(0,99)]
 			if sweetword not in fakeRockuList:
@@ -54,6 +54,7 @@ def compileSweets(n, password, top100rocku):
 
 		#fake password
 		for k in range(0,m-1):
+			# print (password)
 			fackRockuPW = fakeRockuList.pop()
 			i=0
 			while (i < 5):
@@ -161,8 +162,10 @@ def main():
 			if password == top100rocku[i]:
 				inRocku =1
 				sweetwords = compileSweetsFromRocku(n, password,i,top100rocku)
-		if inRocku ==0:
+		if inRocku == 0:
+			# print (password)
 			sweetwords = compileSweets(n, password,top100rocku)
+
 
 		sweetword_lists.append(sweetwords)
 

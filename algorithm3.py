@@ -25,7 +25,7 @@ def compileSweets(n, password, top100rocku):
 		# print(m)
 		remainder = n%5
 		# print(remainder)
-		fakeRockuList = buildPassList(m, password, top100rocku)
+		fakeRockuList = buildPassList(m + 1, password, top100rocku)
 
 		# print(fakeRockuList)
 		i=0
@@ -166,7 +166,7 @@ def buildPassList(number, inputpassword, top100rocku):
 			if (randPass not in passlist) :
 				passlist.append(randPass)
 				dif -= 1
-	print(passlist)
+	# print(passlist)
 	return passlist
 
 
