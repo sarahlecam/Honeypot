@@ -26,7 +26,7 @@ def compileSweets(n, password, top100rocku):
 		remainder = n%5
 		# print(remainder)
 		fakeRockuList = buildPassList(m + 1, password, top100rocku)
-		print(fakeRockuList)
+		# print(fakeRockuList)
 		i=0
 		#The real password
 		while (i < 4):
@@ -115,7 +115,7 @@ def compileSweetsFromRocku(n,password,rank,top100rocku):
 				half1 = half1 - 1
 
 		while (half2>0):
-			print (rank)
+			# print (rank)
 			sweetword = top100rocku[random.randint(rank,3000)]
 			# print(sweetword)
 
