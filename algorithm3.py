@@ -26,10 +26,9 @@ def compileSweets(n, password, top100rocku):
 		remainder = n%5
 		# print(remainder)
 		fakeRockuList = buildPassList(m + 1, password, top100rocku)
-
+		print(fakeRockuList)
 		i=0
 		#The real password
-		#Can be the real password here or fake password. 
 		while (i < 4):
 			# print("chp3")
 			# Find a valid heuristic option
@@ -116,6 +115,7 @@ def compileSweetsFromRocku(n,password,rank,top100rocku):
 				half1 = half1 - 1
 
 		while (half2>0):
+			print (rank)
 			sweetword = top100rocku[random.randint(rank,3000)]
 			# print(sweetword)
 
@@ -153,13 +153,18 @@ def buildPassList(number, inputpassword, top100rocku):
 		else:
 			break
 
+	infinity_loop_preventer = 0
 	if(len(posspass) > 0):
 		dif = number - len(passlist)
 		while (dif > 0) :
-			randPass = random.choice(posspass)
+			if infinity_loop_preventer <5000:
+				randPass = random.choice(posspass)
+			else:
+				randPass = random.choice(top100rocku)
 			if (randPass not in passlist) :
 				passlist.append(randPass)
 				dif -= 1
+			infinity_loop_preventer += 1
 
 	#For non "RockYou Like" Passowrds
 	if (len(passlist) < number) :
@@ -190,6 +195,7 @@ def main():
 	for password in passwords:
 		inRocku =0
 		for i in range(0,3000):
+			# top100rocku is top3000 for algo3
 			if password == top100rocku[i]:
 				inRocku =1
 				sweetwords = compileSweetsFromRocku(n, password,i,top100rocku)
