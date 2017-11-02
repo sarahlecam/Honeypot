@@ -50,13 +50,62 @@ def cluster(sweetwords_list, n):
         exemplar = sweetwords_list[0][affprop.cluster_centers_indices_[cluster_id]]
         cluster = np.unique(sweetwords_list[0][np.nonzero(affprop.labels_==cluster_id)])
         cluster_str = ", ".join(cluster)
-        print(" - *%s:* %s" % (exemplar, cluster_str))
-        roots[exemplar] = cluster_str
+        # print(" - *%s:* %s" % (exemplar, cluster_str))
 
+        roots.setdefault(exemplar, [])
+
+        for child in cluster:
+            roots[exemplar].append(child)
     return roots
+
+def entropy(roots_dict):
+    roots=[]
+    for k, v in roots_dict.items():
+        roots.append(k)
+    entropy=np.ones(len(roots))
+
+    for ind, sweetword in enumerate(roots):
+        for char in sweetword:
+            if char.isalpha():
+                entropy[ind] = entropy[ind]*26
+                # entropy[ind] += (1/26) * np.log(1/26)
+            elif char.isdigit():
+                entropy[ind] = entropy[ind]*10
+                # entropy[ind] += (1/10) * np.log(1/10)
+            elif set('[~!@#$%^&*()_+":;\]+$').intersection(char):
+                entropy[ind] = entropy[ind]*20
+                # entropy[ind] += (1/20) * np.log(1/20)
+        # entropy[ind] = -1*entropy[ind]
+
+    min_entropy = np.where(entropy == min(entropy))
+    min_entropy_roots = []
+    for en in min_entropy[0]:
+        min_entropy_roots.append(roots[en])
+
+    return min_entropy_roots
 
 def passSelect(roots_dict):
 
+    #delete roots with only one child
+    onecount=[]
+    for k, v in roots_dict.items():
+        if len(v) == 1:
+            onecount.append(k)
+
+    for k in onecount:
+        roots_dict.pop(k, None)
+
+    #identify min entropy passwords
+    highentropy=[]
+    min_entropy_roots = entropy(roots_dict)
+    for k, v in roots_dict.items():
+        if k not in min_entropy_roots:
+            highentropy.append(k)
+
+    for k in highentropy:
+        roots_dict.pop(k, None)
+
+    #choose root with most children from min entropy list
     maxcount = max(len(v) for v in roots_dict.values())
     return [k for k, v in roots_dict.items() if len(v) == maxcount]
 
@@ -84,8 +133,9 @@ def main():
         sweetwords_list.append(sweetwords[row].split(sep,n))
 
         roots = cluster(sweetwords_list, n)
-        password_choice = "".join(str(x) for x in passSelect(roots))
-        print("Password #",row, ": ", password_choice)
+        password_choice = "".join(str(x) for x in passSelect(roots)[0])
+        print("Password Guess #",row, ": ", password_choice)
+
         password_choice_ind = sweetwords_list[0].index(password_choice)
         password_list.append(str(password_choice_ind))
 
