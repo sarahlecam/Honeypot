@@ -224,10 +224,10 @@ def main():
         chosen = choose_pass(root_list_processed)
         print("Final Answer", chosen)
 
-        password_choice = "".join(str(x) for x in passSelect(roots)[0])
-        print("Password Guess #",row, ": ", password_choice)
+        # password_choice = "".join(str(x) for x in passSelect(roots)[0])
+        # print("Password Guess #",row, ": ", password_choice)
 
-        password_choice_ind = sweetwords_list[0].index(password_choice)
+        password_choice_ind = sweetwords_list[0].index(chosen)
         password_list.append(str(password_choice_ind))
 
     write_passwordchoice_file(filename, password_list)
