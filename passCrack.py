@@ -46,14 +46,7 @@ def calculate_entropy(input):
             score += 11
 
     # if the password is made up entirely of characters
-<<<<<<< HEAD
-    elif len([c for c in input if (c.isalpha() and c.islower())]) == len(input):
-        score += 10
-
-    else:
-=======
     elif len([c for c in input if c.isalpha()]) == len(input):
->>>>>>> d17e389b83a2639aa736a9efc322fc032f1f4837
         score += 5
         # print (type(str(input))
         if (d.check(str(input))):
