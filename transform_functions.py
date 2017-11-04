@@ -32,7 +32,6 @@ def read_password_file(filename):
         # print (pw_list)
     return pw_list
 
-
 def stripFrequencies2(filename):
     tr_list = [ ]
 
@@ -44,6 +43,16 @@ def stripFrequencies2(filename):
     tr_list = [line.split()[1] if len(line.split()) > 1 else line.split()[0] for line in tr_list]
     return tr_list
 
+def strip_frequencies_first_18661(filename):
+    tr_list = [ ]
+
+    if sys.version_info[0] == 3:
+        lines = open(filename,"r",errors='ignore').readlines()
+    else:
+        lines = open(filename,"r").readlines()
+    tr_list = [line.rstrip('\n') for line in lines[:18661]]
+    tr_list = [line.split()[1] if len(line.split()) > 1 else line.split()[0] for line in tr_list]
+    return tr_list
 
 # Write to output file
 def write_sweetword_file(filename, sweetword_lists):
@@ -62,7 +71,6 @@ def write_sweetword_file(filename, sweetword_lists):
            file.write("\n")
 
     file.close()
-
 
 # Compile make up statistics of password
 def getPassStats(password) :
