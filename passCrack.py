@@ -55,9 +55,9 @@ def calculate_entropy(input):
     else :
         score += 5
         if (input[0].isalpha() and input[-1].isdigit()):
-            score += 10
+            score += 5
 
-    # if password has more than 50 percent special characters, increase ration to 1.5
+    # if password has more than 30 percent special characters, increase ration to 1.5
     if len([c for c in input if c in specialChars]) >= len(input)*0.3:
         score -= 30
 
@@ -71,9 +71,10 @@ def calculate_entropy(input):
         elif input[idx].isdigit() and input[idx+1].isalpha():
             capitalizationChanges += 1
     if capitalizationChanges>3:
-        score -=15
+        score -=25
     elif capitalizationChanges>1:
         score -=5
+
     print(input,"score",score)
     return score
 
