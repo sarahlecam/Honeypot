@@ -6,6 +6,65 @@ import sys
 import numpy as np
 import sklearn.cluster
 import distance
+from random import shuffle
+import string
+
+def strip_frequencies_first_18661(filename):
+    tr_list = [ ]
+
+    if sys.version_info[0] == 3:
+        lines = open(filename,"r",errors='ignore').readlines()
+    else:
+        lines = open(filename,"r").readlines()
+    tr_list = [line.rstrip('\n') for line in lines[:18661]]
+    tr_list = [line.split()[1] if len(line.split()) > 1 else line.split()[0] for line in tr_list]
+    return tr_list
+
+
+def isInDictionary(password):
+    dictionary = strip_frequencies_first_18661("rockyou-withcount.txt")
+    # print(len(dictionary))
+    for entry in dictionary:
+        if password == entry:
+            return True
+    return False
+
+def calculate_entropy(input):
+    score = 0
+    specialChars = string.punctuation
+
+    if not isInDictionary(input):
+        score += 10
+
+    # if only numbers, check if sequence or repetitive and add 20 points to score
+    if input.isdigit():
+        if input == len(input) * input[0] or input in "0123456789876543210":
+            score += 20
+
+    # if the password is made up entirely of characters
+    elif len([c for c in input if c.isalpha()]) == len(input):
+        score += 10
+
+    else:
+        score += 5
+
+    # if password has more than 50 percent special characters, increase ration to 1.5
+    if len([c for c in input if c in specialChars]) >= len(input)*0.3:
+        score -= 30
+
+    return score
+
+def choose_pass(password_list):
+    max_index = 0
+    max_score = 0
+    for index, password in enumerate(password_list):
+        current_score = calculate_entropy(password)
+        if current_score > max_score:
+            max_score = current_score
+            max_index = index
+    return password_list[max_index]
+
+# print (isInDictionary("123456"))
 
 # Extract passwords from file
 def read_password_file(filename):
@@ -126,13 +185,35 @@ def main():
 
     filename = "password_choice.txt"
 	# Identify password for each set of sweetwords
+
     for row in range(0,m):
 
         sweetwords_list = []
         sep = ','
         sweetwords_list.append(sweetwords[row].split(sep,n))
-
         roots = cluster(sweetwords_list, n)
+        root_list = []
+
+        for key,val in roots.items():
+            # print(key,val)
+            length = len(val)
+            root_list.append([key,length])
+
+            # root_list.append(key)
+        root_list=sorted(root_list,key=lambda x: x[1])
+
+        root_list_processed =[]
+        # print(root_list)
+        if len(root_list) > 5:
+            root_list_processed = [root_list[0][0],root_list[1][0],root_list[-1][0],root_list[-2][0]]
+        else:
+            for item in root_list:
+                root_list_processed.append(item[0])
+        print(root_list_processed)
+        shuffle(root_list_processed)
+        chosen = choose_pass(root_list_processed)
+        print("Final Answer", chosen)
+
         password_choice = "".join(str(x) for x in passSelect(roots)[0])
         print("Password Guess #",row, ": ", password_choice)
 
