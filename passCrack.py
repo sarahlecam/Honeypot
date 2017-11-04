@@ -61,6 +61,20 @@ def calculate_entropy(input):
     if len([c for c in input if c in specialChars]) >= len(input)*0.3:
         score -= 30
 
+    capitalizationChanges = 0
+    for idx,val in enumerate(input[0:-1]):
+        if input[idx].isalpha() and input[idx+1].isalpha():
+            if input[idx].islower() != input[idx+1].islower():
+                capitalizationChanges += 1
+        elif input[idx].isalpha() and input[idx+1].isdigit():
+            capitalizationChanges += 1
+        elif input[idx].isdigit() and input[idx+1].isalpha():
+            capitalizationChanges += 1
+    if capitalizationChanges>1:
+        score -=10
+    elif capitalizationChanges>3:
+        score -=25
+
     print(input,"score",score)
     return score
 
