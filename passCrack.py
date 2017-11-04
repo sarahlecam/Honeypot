@@ -70,10 +70,10 @@ def calculate_entropy(input):
             capitalizationChanges += 1
         elif input[idx].isdigit() and input[idx+1].isalpha():
             capitalizationChanges += 1
-    if capitalizationChanges>1:
-        score -=10
-    elif capitalizationChanges>3:
-        score -=25
+    if capitalizationChanges>3:
+        score -=15
+    elif capitalizationChanges>1:
+        score -=5
     print(input,"score",score)
     return score
 
