@@ -8,6 +8,7 @@ import sklearn.cluster
 import distance
 from random import shuffle
 import string
+import enchant
 
 def strip_frequencies_first_18661(filename):
     tr_list = [ ]
@@ -30,6 +31,7 @@ def isInDictionary(password):
     return False
 
 def calculate_entropy(input):
+    d = enchant.Dict("en_US")
     score = 0
     specialChars = string.punctuation
 
@@ -40,13 +42,17 @@ def calculate_entropy(input):
     if input.isdigit():
         if input == len(input) * input[0] or input in "0123456789876543210":
             score += 20
-
     # if the password is made up entirely of characters
     elif len([c for c in input if c.isalpha()]) == len(input):
-        score += 10
-
-    else:
         score += 5
+        # print (type(str(input))
+        if (d.check(str(input))):
+            # print (input)
+            score += 20
+    else :
+        score += 5
+        if (input[0].isalpha() and input[-1].isdigit()):
+            score += 10
 
     # if password has more than 50 percent special characters, increase ration to 1.5
     if len([c for c in input if c in specialChars]) >= len(input)*0.3:
