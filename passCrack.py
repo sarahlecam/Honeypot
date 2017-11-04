@@ -42,11 +42,9 @@ def calculate_entropy(input):
     if input.isdigit():
         if input == len(input) * input[0] or input in "0123456789876543210":
             score += 20
-<<<<<<< HEAD
-=======
         else:
             score += 11
->>>>>>> dc160fba177e48abf5f067cbbb13e072b2def3e6
+
     # if the password is made up entirely of characters
     elif len([c for c in input if c.isalpha()]) == len(input):
         score += 5
